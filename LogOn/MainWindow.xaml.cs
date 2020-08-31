@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
@@ -26,6 +27,10 @@ namespace LogOn
         public MainWindow()
         {
             InitializeComponent();
+
+            dropDown.ItemsSource = EnumDsn();
+
+
             dt = new DataTable();
             dt.Columns.Add("Id_org_adm", typeof(string));
             dt.Columns.Add("Personnummer", typeof(string));
@@ -48,6 +53,7 @@ namespace LogOn
         {
             string ConectStreng;
             ConectStreng = "DSN=BZDSNT;UID=Z6SGJ;Pwd=xxxxxx";
+            
 
             using (var conn = new OdbcConnection(ConectStreng))
             {
@@ -104,6 +110,10 @@ namespace LogOn
 
         private void brtStart_Click_1(object sender, RoutedEventArgs e)
         {
+
+            //var test = GetOdbcDriverNames();
+            var test = EnumDsn();
+
             string sqlQ = "SELECT ID_ORG_ADM_ENHED"
                         + ", PERSONNUMMER"
                         + ", KLE_UUID"
@@ -112,6 +122,39 @@ namespace LogOn
             var _Odbc = new ODBC() { OdbcNavn = "BZDSNT", };
             RunQuery(_Odbc, sqlQ);
         }
+
+        private List<string> EnumDsn()
+        {
+            List<string> list = new List<string>();
+            list.AddRange(EnumDsn(Registry.CurrentUser));
+            list.AddRange(EnumDsn(Registry.LocalMachine));
+            return list;
+        }
+
+        private IEnumerable<string> EnumDsn(RegistryKey rootKey)
+        {
+            RegistryKey regKey = rootKey.OpenSubKey(@"Software\ODBC\ODBC.INI\ODBC Data Sources");
+            if (regKey != null)
+            {
+                foreach (string name in regKey.GetValueNames())
+                {
+                    //string value = regKey.GetValue(name, "").ToString();
+                    if(name.Substring(0,2) =="BZ")
+                        yield return name;
+                }
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+        private void ComboBox_Click(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
     }
     
 }

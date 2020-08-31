@@ -18,6 +18,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="brtStart" Content="Start" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="143,32,0,0" VerticalAlignment="Top" Click="brtStart_Click_1"/>
+        <ComboBox x:Name="dropDown" Grid.Column="1" HorizontalAlignment="Center" Margin="0,42,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged"/>
 
     </Grid>
 </Window>
