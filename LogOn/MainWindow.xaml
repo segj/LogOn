@@ -11,7 +11,12 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid" Grid.ColumnSpan="2" Margin="40,81,64,10" SelectionChanged="DataGrid_SelectionChanged"/>
+        <DataGrid x:Name="dataGrid" Grid.ColumnSpan="2" Margin="40,81,64,10" SelectionChanged="DataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Administrativ"/>
+                <DataGridTextColumn Header="Anden tekst"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button x:Name="brtStart" Content="Start" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="143,32,0,0" VerticalAlignment="Top" Click="brtStart_Click_1"/>
 
     </Grid>
